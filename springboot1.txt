@@ -1,0 +1,141 @@
+package bankds.bank.Controller;
+	import java.util.Optional;
+
+//import com.bank.model.Account;
+	//import com.bank.service.AccountService;
+	import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import bankds.bank.model.Account;
+
+   
+	@RestController
+	@RequestMapping("/bank")
+	public class AccountController {
+
+	    @Autowired
+	    private Account service;
+
+	    @PostMapping("/create")
+	    public Account create(@RequestBody Account acc) {
+	        return service.createAccount(acc);
+	    }
+
+	    @GetMapping("/balance/{accNo}")
+	    public Optional<Account> checkBalance(@PathVariable Long accNo) {
+	        return service.getAccount(accNo);
+	    }
+
+	    @PutMapping("/deposit/{accNo}/{amount}")
+	    public String deposit(@PathVariable Long accNo, @PathVariable double amount) {
+	        return service.deposit(accNo, amount);
+	    }
+
+	    @PutMapping("/withdraw/{accNo}/{amount}")
+	    public String withdraw(@PathVariable Long accNo, @PathVariable double amount) {
+	        return service.withdraw(accNo, amount);
+	    }
+	}
+
+
+package bankds.bank.model;
+
+	import java.util.Optional;
+
+import jakarta.persistence.*;
+
+	@Entity
+	public class Account {
+	    @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Long accNo;
+
+	    private String holderName;
+	    private double balance;
+		public double getBalance() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+		public void setBalance(double d) {
+			// TODO Auto-generated method stub
+			
+		}
+		public Optional<Account> getAccount(Long accNo2) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		public String deposit(Long accNo2, double amount) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		public String withdraw(Long accNo2, double amount) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		public Account createAccount(Account acc) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+	    // Constructors, Getters, Setters
+	}
+
+
+
+package bankds.bank.model.Repopsitory;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+	public interface AccountRepository<Account> extends JpaRepository<Account, Long> {
+	}
+
+
+
+package bankds.bank.Service;
+	import java.util.Optional;
+
+//import com.bank.model.Account;
+	//import com.bank.repository.AccountRepository;
+	import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import bankds.bank.model.Account;
+import bankds.bank.model.Repopsitory.AccountRepository;
+
+	@Service
+	public class Accountservice {
+	    
+	    @Autowired
+	    private AccountRepository repo;
+
+	    public Account createAccount(Account acc) {
+	        return (Account) repo.save(acc);
+	    }
+
+	    public Optional<Account> getAccount(Long accNo) {
+	        return repo.findById(accNo);
+	    }
+
+	    public String deposit(Long accNo, double amount) {
+	        Account acc = (Account) repo.findById(accNo).orElseThrow();
+	        acc.setBalance(acc.getBalance() + amount);
+	        repo.save(acc);
+	        return "Amount deposited successfully.";
+	    }
+
+	    public String withdraw(Long accNo, double amount) {
+	        Account acc = (Account) repo.findById(accNo).orElseThrow();
+	        if (acc.getBalance() >= amount) {
+	            acc.setBalance(acc.getBalance() - amount);
+	            repo.save(acc);
+	            return "Withdrawal successful.";
+	        } else {
+	            return "Insufficient balance.";
+	        }
+	    }
+	}
+
+
+
+
+
+
