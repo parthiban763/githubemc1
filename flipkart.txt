@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flipcart — Demo Store</title>
+  <style>
+    /* Simple reset */
+    *{
+        box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Inter, system-ui, Arial, sans-serif
+}
+
+    body{
+        background:#f5f7fb;color:#111
+    }
+    header{
+        background:linear-gradient(90deg,#0f172a,#0b1220);
+    color:#fff;
+    padding:16px 20px;
+    display:flex;align-items:center;
+    justify-content:space-between
+}
+    .brand{
+        display:flex;
+    align-items:center;
+    gap:12px
+}
+
+    .logo{
+        width:42px;
+    height:42px;
+    background:#fff;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;color:#0b1220
+}
+
+    .search{
+        display:flex;
+    align-items:center;
+    gap:8px
+}
+
+    .search input{
+        padding:8px 12px;
+    border-radius:8px;
+    border:none;
+    width:320px
+}
+
+    .controls{
+        display:flex;
+    gap:12px;
+    align-items:center
+}
+
+    .btn{
+        background:#06b6d4;
+    color:#042029;
+    padding:8px 12px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer
+}
+
+    .badge{
+        background:#ef4444;
+    color:#fff;
+    padding:6px 8px;
+    border-radius:999px;
+    font-weight:600
+}
+
+    main{
+        padding:20px;
+    max-width:1200px;
+    margin:16px auto;
+}
+
+    .toolbar{
+        display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;gap:12px
+}
+
+    .filters{
+        display:flex;
+    gap:8px;align-items:center
+}
+
+    .products{
+        display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:16px
+}
+
+    .card{
+        background:#fff;
+    border-radius:12px;
+    padding:12px;
+    box-shadow:0 6px 18px rgba(12,18,28,0.06);
+    display:flex;flex-direction:column;
+    gap:10px
+}
+
+    .thumb{
+        height:160px;
+    border-radius:8px;
+    background-size:cover;
+    background-position:center
+}
+
+    .title{font-weight:600}
+
+    .price{color:#059669;
+    font-weight:700}
+
+    .actions{display:flex;
+    gap:8px;margin-top:auto}
+
+    .small{
+        padding:6px 8px;
+    border-radius:8px;
+    border:1px solid #e6eef5;
+    background:transparent;
+    cursor:pointer
+}
+
+    /* Cart sidebar/modal */
+    .cart-btn{position:relative}
+
+    .cart-panel{
+        position:fixed;
+        right:18px;top:80px;
+        width:360px;
+        max-height:70vh;
+        background:#fff;border-radius:12px;
+        padding:12px;
+        box-shadow:0 24px 50px rgba(2,6,23,0.2);
+        overflow:auto;
+        display:none;
+        z-index:80
+    }
+
+    .cart-panel.open{display:block}
+
+    .cart-item{
+        display:flex;
+        gap:10px;
+        align-items:center;
+        padding:8px 0;
+        border-bottom:1px dashed #eef2f7
+    }
+
+    .cart-item img{
+        width:64px;height:64px;
+        object-fit:cover;border-radius:8px
+    }
+
+    .qty{
+        display:flex;gap:6px;
+        align-items:center
+    }
+
+    footer{
+        max-width:1200px;
+        margin:20px auto;
+        padding:8px 20px;
+        color:#475569
+    }
+
+    /* responsive tweaks */
+    @media (max-width:640px){
+      .search input{width:140px}
+      .cart-panel{right:8px;width:92vw}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">F</div>
+      <div>
+        <div style="font-weight:700">Flipcart Demo</div>
+        <div style="font-size:12px;color:#9aa6b2">HTML · CSS · JavaScript</div>
+      </div>
+    </div>
+
+    <div class="search">
+      <input id="searchInput" placeholder="Search products, e.g. headphones" />
+      <button class="btn" id="searchBtn">Search</button>
+    </div>
+
+    <div class="controls">
+      <div style="color:#9aa6b2;font-size:14px">Welcome, Guest</div>
+      <div class="cart-btn">
+        <button id="cartToggle" class="btn">Cart <span id="cartCount" class="badge">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <div class="filters">
+        <select id="categorySelect" class="small">
+          <option value="all">All categories</option>
+        </select>
+
+        <select id="sortSelect" class="small">
+          <option value="default">Sort: Popular</option>
+          <option value="price_asc">Price — Low to High</option>
+          <option value="price_desc">Price — High to Low</option>
+        </select>
+
+        <button id="clearBtn" class="small">Clear Filters</button>
+      </div>
+
+      <div style="font-size:14px;color:#475569">Showing <span id="resultsCount">0</span> products</div>
+    </div>
+
+    <section class="products" id="products"></section>
+  </main>
+
+  <div id="cartPanel" class="cart-panel" aria-hidden="true">
+    <h3>Shopping Cart</h3>
+    <div id="cartItems"></div>
+    <div style="padding:12px 0;display:flex;justify-content:space-between;align-items:center">
+      <div style="font-weight:700">Total: <span id="cartTotal">₹0</span></div>
+      <button id="checkoutBtn" class="btn">Checkout</button>
+    </div>
+  </div>
+
+  <footer>
+    Built as a demo — not a production store. Want features like login, payments, or backend API? I can add them.
+  </footer>
+
+  <script>
+    // Demo product data
+    const PRODUCTS = [
+      {id:1,title:'Wireless Headphones',price:2499,category:'Electronics',img:'https://m.media-amazon.com/images/I/51FwlxcIySL._SX679_.jpg'},
+      {id:2,title:'Smart Watch',price:3499,category:'Electronics',img:'https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/NI_CATALOG/IMAGES/CIW/2025/7/24/1132d8f0-935d-4be3-94d4-4f184c676df8_SAX4QDL4ZU.png'},
+      {id:3,title:'Running Shoes',price:2999,category:'Fashion',img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=60'},
+      {id:4,title:'Backpack',price:1599,category:'Fashion',img:'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRKUA9EaUmQw4L-0ekt3WpUvR25jgmeGi0sj_BajQngfLuvwa_Qa1oe2RkoD4453zgpxo3pdJ7L7roYCnKZ54azK8z7ABbH7BiAB5xl0gc8F9mwDG9tVU3ubw'},
+      {id:5,title:'Coffee Maker',price:4199,category:'Home',img:'https://www.nespresso.com/in/media/catalog/product/l/a/lattissima-porcelain-white.png?optimize=high&fit=bounds&height=&width=&canvas=:'},
+      {id:6,title:'Desk Lamp',price:799,category:'Home',img:'https://m.media-amazon.com/images/I/71D2YNJoNNL._SX569_.jpg'},
+      {id:7,title:'Sunglasses',price:1199,category:'Fashion',img:'https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQYHxB1S4D5FFnwmcCwrCV6T3DMlPGKfhAn5_lgMeyoQ2w6w8iFStXzTl_cDS-JW3jK8VS5eC7sQNCefBK58qs2WRV3DviyZqPvP9w55lZbVcdb8Wu9n3vtXA'},
+      {id:8,title:'Bluetooth Speaker',price:2199,category:'Electronics',img:'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQkjx_8dxInjN7KxQpHb97_uwk4TbPzI-g22wYUDCujgsER8J43mpEVT-pJMkoTHjnJy9sLj1JE7IlUjEtfSFlz5jXZvoHj47DJS-et4Stxz3FgFwP9VDRT6w'}
+    ];
+
+    // App state
+    let state = {
+      products: PRODUCTS.slice(),
+      filtered: PRODUCTS.slice(),
+      cart: {},
+    };
+
+    // DOM nodes
+    const productsEl = document.getElementById('products');
+    const categorySelect = document.getElementById('categorySelect');
+    const sortSelect = document.getElementById('sortSelect');
+    const resultsCount = document.getElementById('resultsCount');
+    const cartToggle = document.getElementById('cartToggle');
+    const cartPanel = document.getElementById('cartPanel');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const cartCountBadge = document.getElementById('cartCount');
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+
+    // Initialize app
+    function init(){
+      populateCategories();
+      loadCartFromStorage();
+      renderProducts(state.filtered);
+      attachEvents();
+    }
+
+    function populateCategories(){
+      const cats = ['all',...new Set(state.products.map(p=>p.category))];
+      categorySelect.innerHTML = cats.map(c=>`<option value="${c}">${capitalize(c)}</option>`).join('');
+    }
+
+    function capitalize(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+
+    function renderProducts(list){
+      resultsCount.textContent = list.length;
+      productsEl.innerHTML = list.map(p=>`
+        <article class="card">
+          <div class="thumb" style="background-image:url('${p.img}')"></div>
+          <div class="title">${p.title}</div>
+          <div style='font-size:13px;color:#64748b'>${p.category}</div>
+          <div class="price">₹${p.price.toLocaleString()}</div>
+          <div class="actions">
+            <button class="btn" onclick="addToCart(${p.id})">Add to Cart</button>
+            <button class="small" onclick="viewDetails(${p.id})">View</button>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function attachEvents(){
+      categorySelect.addEventListener('change', applyFilters);
+      sortSelect.addEventListener('change', applyFilters);
+      searchBtn.addEventListener('click',()=>{applyFilters();});
+      searchInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') applyFilters(); });
+      cartToggle.addEventListener('click', toggleCart);
+      clearBtn.addEventListener('click',()=>{categorySelect.value='all';sortSelect.value='default';searchInput.value='';applyFilters();});
+      checkoutBtn.addEventListener('click', checkout);
+      document.addEventListener('click',(e)=>{ if(!cartPanel.contains(e.target) && !cartToggle.contains(e.target)) cartPanel.classList.remove('open'); });
+    }
+
+    function applyFilters(){
+      let list = state.products.slice();
+      const cat = categorySelect.value;
+      const sort = sortSelect.value;
+      const q = searchInput.value.trim().toLowerCase();
+
+      if(cat && cat!=='all') list = list.filter(p=>p.category===cat);
+      if(q) list = list.filter(p=>p.title.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+
+      if(sort==='price_asc') list.sort((a,b)=>a.price-b.price);
+      else if(sort==='price_desc') list.sort((a,b)=>b.price-a.price);
+
+      state.filtered = list;
+      renderProducts(list);
+    }
+
+    function addToCart(id){
+      const p = state.products.find(x=>x.id===id);
+      if(!p) return;
+      if(!state.cart[id]) state.cart[id] = {...p, qty:0};
+      state.cart[id].qty += 1;
+      saveCartToStorage();
+      renderCart();
+      // small feedback
+      alert(`${p.title} added to cart`);
+    }
+
+    function viewDetails(id){
+      const p = state.products.find(x=>x.id===id);
+      if(!p) return;
+      alert(`${p.title}\n\nCategory: ${p.category}\nPrice: ₹${p.price}`);
+    }
+
+    function renderCart(){
+      const items = Object.values(state.cart);
+      cartItemsEl.innerHTML = items.length ? items.map(i=>`
+        <div class="cart-item">
+          <img src="${i.img}" alt="${escapeHtml(i.title)}" />
+          <div style="flex:1">
+            <div style="font-weight:600">${escapeHtml(i.title)}</div>
+            <div style="font-size:13px;color:#64748b">₹${i.price.toLocaleString()}</div>
+            <div class="qty">
+              <button class="small" onclick="changeQty(${i.id}, -1)">-</button>
+              <div style="padding:6px 10px;border-radius:6px;background:#f1f5f9">${i.qty}</div>
+              <button class="small" onclick="changeQty(${i.id}, 1)">+</button>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-weight:700">₹${(i.price*i.qty).toLocaleString()}</div>
+            <button class="small" onclick="removeFromCart(${i.id})">Remove</button>
+          </div>
+        </div>
+      `).join('') : '<div style="padding:12px;color:#64748b">Your cart is empty</div>';
+
+      const total = items.reduce((s,i)=>s+i.price*i.qty,0);
+      cartTotalEl.textContent = `₹${total.toLocaleString()}`;
+      const count = items.reduce((s,i)=>s+i.qty,0);
+      cartCountBadge.textContent = count;
+
+      // auto-open cart when items exist
+      if(count>0) cartPanel.classList.add('open');
+    }
+
+    function changeQty(id, delta){
+      if(!state.cart[id]) return;
+      state.cart[id].qty += delta;
+      if(state.cart[id].qty <= 0) delete state.cart[id];
+      saveCartToStorage();
+      renderCart();
+    }
+
+    function removeFromCart(id){
+      delete state.cart[id];
+      saveCartToStorage();
+      renderCart();
+    }
+
+    function toggleCart(e){
+      e.stopPropagation();
+      cartPanel.classList.toggle('open');
+    }
+
+    function checkout(){
+      const items = Object.values(state.cart);
+      if(items.length===0){ alert('Cart is empty'); return; }
+      const total = items.reduce((s,i)=>s+i.price*i.qty,0);
+      // Simple demo checkout
+      if(confirm(`Proceed to pay ₹${total.toLocaleString()} ?`)){
+        // Clear cart
+        state.cart = {};
+        saveCartToStorage();
+        renderCart();
+        alert('Thank you for your purchase! (Demo)');
+      }
+    }
+
+    function saveCartToStorage(){
+      localStorage.setItem('flipcart_cart', JSON.stringify(state.cart));
+    }
+
+    function loadCartFromStorage(){
+      try{
+        const c = JSON.parse(localStorage.getItem('flipcart_cart')||'{}');
+        state.cart = c || {};
+        renderCart();
+      }catch(e){ state.cart = {}; }
+    }
+
+    function escapeHtml(text){ return text.replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]; }); }
+
+    // Expose a couple of functions to the global scope for onclick handlers
+    window.addToCart = addToCart;
+    window.changeQty = changeQty;
+    window.removeFromCart = removeFromCart;
+    window.viewDetails = viewDetails;
+
+    // Start
+    init();
+  </script>
+</body>
+</html>
