@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+<head>
+   <title>portfolio</title>
+ <body>
+<style>
+      *{  margin:0;,padding:0 ; }
+     body { background-color:#000080;
+            color:white; }
+
+     nav, h1,li,ul{ font-size:1.2em;
+               margin:60px;	 }  
+
+     nav,a,li,ul{display:inline; }
+
+    li,ul, a{word-spacing 
+         margin-left 
+		 cursor:pointer;
+		 text-decoration:none;
+		 color:#00ff00}
+
+    li,ul, a:hover{ color:red;  }
+     
+     p{font-size:1.5em;
+       margin-top:10%;
+       margin-left:10%;}
+
+     h2{font-size:2.5em;
+        margin-left:10%;}
+     h3{font-size:1.5em;
+        margin-left:10%;
+        color:#87CEEB;
+		text-shadow:4px 4px 4px;}
+     h4{margin-left:10%;
+	     display:inline;}
+		 
+    .container,h4{margin-top:-12%;
+	            display:inline;}
+	 
+  .profile-photo {margin-left:65%;
+     margin-top:-0%;
+    display:inline;
+    background-color:white; 
+    height:250px;        
+    width:250px;	
+    object-fit: cover; 
+    border-radius: 100%; 
+    border: 6px solid black; 
+  }
+  .container{ display:flex;}
+   table,td {border-radius:50%;
+			 background-color:red;
+			 color:white;
+			 object-fit:cover;
+              font-size:15px;
+              margin-left:15%;
+			  margin-top:6%;
+			  box-shadow:2px 2px 20px 5px red;
+            }   
+          .frontend{margin-top:10%;
+		            maergin-left:20%;}
+		  
+    .About{margin-top:8%;
+		     font-size:25px;} 
+			 
+	.img{margin-top:-14%;
+	margin-left:20%}
+     
+	 .title{margin-top:8%;
+	         
+	         font-size:14px;}
+			 
+		          .project {
+				  height:auto;
+				  width:100%;
+				  color:black;
+                  background-color:white;
+		     } 
+          
+		
+		.con{cursor: pointer;
+  background: white;
+  padding: 40px;
+  width: 60px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+		width:50%;
+		margin-left:25%;
+		margin-top:5%;
+		height:auto;}
+		
+        #contact textarea {
+            padding: 40px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 1em;
+        }
+		.Contact{margin-top:8%;}
+
+        #contact button {
+            padding: 12px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            font-size: 1em;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #contact button:hover {
+            background-color: #555;
+        }
+		.project{
+		cursor: pointer;
+  background: white;
+  padding: 20px;
+  width: 300px;
+  border-radius: 8px;
+  );
+  
+  }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 2px 0;
+        }
+
+        /* Responsive adjustments */
+        @media(max-width: 768px){
+            #about {
+                flex-direction: column;
+                text-align: center;
+            }
+            #about img {
+                margin-bottom: 15px;
+            }
+        }
+		  
+</style>
+
+   <div id="Home" class="Home"> 
+       <h1> Parthiban Portfolio</h1>
+        <nav>
+		<ul>
+          <li><a href="#Home">Home</a></li>
+          <li><a href="#About">About</a></li>
+          <li><a href="#Project">Project</a></li>
+          <li><a href="#Contact">Contact</a></li>
+        </ul>		   
+       </nav>
+      <p>Hello,it's Me</p>
+      <h2>Parthiban.R</h2>
+
+      <h3>And i am a Web Developer</h3>
+      <h4>Including results for web development positive content.</h4>
+	  
+    <div class ="container"> 
+	<img src="your-photo.jpg" alt="My Photo" class="profile-photo" /> 
+	    </div>
+		<table>
+		     <td>More About Me</td>
+		</table>
+       
+   </div>
+   
+   <div id="About" class="About">
+   <h1>About Me</h1>
+   <div class="img">
+      <p><img src=" frontend.jpg" class="frontend"/></p>
+	  </div>
+   </div>
+   
+   <div id="Project" class="Project">
+   
+        <section id="projects">
+		<div class="title">
+            <h2>My Projects</h2>
+			</div>
+			<center>
+            <div class="project">
+                
+                <h3>Project Title 1</h3>
+                <p>A brief description of this project. Technologies used: HTML, CSS, JavaScript.</p>
+            </div>
+            <div class="project">
+                <h3>Project Title 2</h3>
+                <p>A brief description of this project. Technologies used: Angular, Node.js.</p>
+            </div>
+            <div class="project">
+                <h3>Project Title 3</h3>
+                <p>A brief description of this project. Technologies used: Vue.js, Firebase.</p>
+            </div>
+			</center>
+        </section>
+		
+		
+		<section>
+   <div id="Contact" class="Contact">
+        <h2>Contact Me</h2>
+		</div>
+		<div class="con">
+            <form>
+			<center>
+                <input type="text" placeholder="Your Name" required /><br><br>
+                <input type="email" placeholder="Your Email" required /><br><br>
+                <textarea rows="5" placeholder="Your Message" required></textarea><br><br>
+                <button type="submit">Send Message</button>
+				</center>
+            </form>
+			</div>
+        </section>
+    
+
+    <footer>
+        <p>&copy; 2025 Your Name. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+   </div>
+</body>
+</head>
+</html>
