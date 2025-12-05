@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<HTML>
+  <head>
+  <title>IT</title>
+    <body>
+	<center><h1>ES  COLLEGE  OF  ENGINEERING  CHENNAI</h1></center>
+	<nav>
+	<ul><a href ="#Home" style="text-decoration: none">Home</a></ul>
+	<ul><a href ="#About" style="text-decoration: none">About</a></ul>
+	<ul><a href ="#Contact" style="text-decoration: none">Contact</a></ul>
+	</nav>
+	<div id="Home">
+	<h2>Home</h2>
+	<center><img src="https://t3.ftcdn.net/jpg/00/37/59/54/360_F_37595432_eiYo7ms0vXleIMYlFLywjdwfPqWypQbK.jpg"></center>
+	<div id="About">
+    <h2>About</h2>
+	</div>
+			<center>
+            <div class="project">
+	                
+                       <h3>project</h3>
+					   <p> A brief description of this project. Technologies used: HTML, CSS, JavaScript.</p>
+					   
+					   </center>	
+			</div>
+			<center>
+            <div class="project">
+                
+                <h3>Project</h3>
+                <p>A college project summary is a concise overview of your work, covering the 'Why'
+					   (background/problem), 'What' (methods/actions), and 'So What' (results/conclusions),
+					   presented clearly with objectives, key findings, challenges, and outcomes to give readers a quick grasp of
+					   the project's essence, goals, and impact, often using simple language and structure like bullet points.</p>
+            </div>
+	
+	<div id="Contact">
+	<h2>Contact</h2>
+	
+    </body>
+  </head>
+   
+   <style>
+   body{
+   background-color:#00008B;}
+   
+   p{color:red;
+   border-radius:6px;
+	 border:solid 2px black;}
+	 
+     h1{color:red;
+	 cursor:pointer;
+	 background-color:green;}
+	 
+	 nav,ul,a:hover{color:red;}
+	 .project{
+	 cursor: pointer;
+  background: white;
+  padding: 20px;
+  width: 300px;
+  border-radius: 20px;
+  }
+  
+	 About{height:auto;
+	 text-align:center;
+	  width:100%;
+	  color:black;
+	  background-color:yellow;}
+	 
+	 nav,ul{cursor:pointer;
+	 background-color:yellow;
+	 display:flex;
+	 font-size:25px;
+	 padding-left:15%}
+   </style>
+</HTML>
